@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibili快捷键
 // @name:en      bilibili shortcut
-// @version      0.1
+// @version      1.0.2
 // @description  bilibili快捷键，按r刷新主页，按t切换宽屏模式，按g切换网页全屏模式
 // @description:en  press key r to refresh main page feed videos, press key t to toggle wide screen mode, press key g to toggle web full screen mode
 // @license    MIT
@@ -23,9 +23,9 @@
 
         // 按下 'R' 刷新页面，仅在主页www.bilibili.com生效
         if ((event.key === 'r' || event.key === 'R') && window.location.hostname === 'www.bilibili.com') {
-            const refreshButton = document.querySelector('.feed-roll-btn'); // 刷新按钮
+            const refreshButton = document.querySelector('.primary-btn.roll-btn'); // 刷新按钮
             if (refreshButton) {
-                refreshButton.firstElementChild.dispatchEvent(new PointerEvent('click', { bubbles: true }));
+                refreshButton.dispatchEvent(new PointerEvent('click', { bubbles: true }));
             }
         }
 
