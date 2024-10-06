@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Bilibili快捷键",
-    "version": "1.0.5",
+    "version": "1.0.6",
     "description": "Press 'T' to toggle wide screen mode, 'G' to toggle web full screen mode, 'R' to refresh recommended videos, 'B' to replay the video from the start, 'A' to focus on the bullet chat input box, 'V' to toggle mini window player display. 在Bilibili上按R刷新主页推荐视频，按T切换宽屏模式，按G切换网页全屏模式，按B重新开始播放视频，按A聚焦弹幕输入框, 按V隐藏/显示小窗口",
     "icons": {
         "80": "icons/bilibili.png"
@@ -9,9 +9,20 @@
     "permissions": [
         "tabs",
         "activeTab",
+        "storage",
         "http://*.bilibili.com/*",
         "https://*.bilibili.com/*"
     ],
+    "options_ui": {
+        "page": "options.html",
+        "open_in_tab": true
+    },
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "80": "icons/icon.png"
+        }
+    },
     "content_scripts": [
         {
             "matches": [

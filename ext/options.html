@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilibili 快捷键配置</title>
+    <link rel="stylesheet" href="options.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Bilibili 快捷键配置</h1>
+        <form id="config-form">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="left-align">功能</th> <!-- 使用 class 让这个表头左对齐 -->
+                        <th>快捷键</th>
+                        <th>启用</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>聚焦弹幕输入框</td>
+                        <td><input type="text" id="focus-key" name="focus-key" value="a" class="input-key"></td>
+                        <td><input type="checkbox" id="focus-enabled" name="focus-enabled" checked
+                                class="input-checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>重新开始播放当前视频</td>
+                        <td><input type="text" id="replay-key" name="replay-key" value="b" class="input-key"></td>
+                        <td><input type="checkbox" id="replay-enabled" name="replay-enabled" checked
+                                class="input-checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>切换网页全屏模式</td>
+                        <td><input type="text" id="fullscreen-key" name="fullscreen-key" value="g" class="input-key">
+                        </td>
+                        <td><input type="checkbox" id="fullscreen-enabled" name="fullscreen-enabled" checked
+                                class="input-checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>主页刷新推荐视频</td>
+                        <td><input type="text" id="refresh-key" name="refresh-key" value="r" class="input-key"></td>
+                        <td><input type="checkbox" id="refresh-enabled" name="refresh-enabled" checked
+                                class="input-checkbox"></td>
+                    </tr>
+                    <tr>
+                        <td>切换宽屏模式</td>
+                        <td><input type="text" id="wide-key" name="wide-key" value="t" class="input-key"></td>
+                        <td><input type="checkbox" id="wide-enabled" name="wide-enabled" checked class="input-checkbox">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>隐藏/显示小窗口</td>
+                        <td><input type="text" id="toggle-window-key" name="toggle-window-key" value="v"
+                                class="input-key"></td>
+                        <td><input type="checkbox" id="toggle-window-enabled" name="toggle-window-enabled" checked
+                                class="input-checkbox"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button type="submit">保存设置</button>
+        </form>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script src="options.js"></script>
+</body>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    th,
+    td {
+        padding: 10px;
+    }
+
+    th {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    /* 左对齐功能列的表头 */
+    th.left-align {
+        text-align: left;
+        position: relative;
+        /* 设置相对定位 */
+        left: 35px;
+    }
+
+    /* 左对齐第一列 */
+    td:first-child {
+        text-align: left;
+        width: 60%;
+        /* 第一列宽度 */
+    }
+
+    /* 居中对齐输入框和复选框 */
+    td:nth-child(2),
+    td:nth-child(3) {
+        text-align: center;
+    }
+
+    .input-key {
+        width: 50px;
+        padding: 5px;
+    }
+
+    .input-checkbox {
+        margin: 0 auto;
+    }
+
+    button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .message {
+        color: #dc3545;
+        text-align: center;
+    }
+</style>
+
+</html>
