@@ -6,11 +6,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bilibili 快捷键配置</title>
     <link rel="stylesheet" href="options.css">
+    <style>
+        /* 默认样式（浅色模式） */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            color: #000;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            /* 上下均无间距 */
+            padding: 20px 20px;
+            /* 增加上下的 padding */
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            min-height: 200px;
+            /* 设置最小高度 */
+            transform: scale(0.92);
+            /* 缩小10% */
+            transform-origin: top;
+            /* 设置缩放的原点 */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+        }
+
+        th {
+            font-weight: bold;
+            text-align: center;
+        }
+
+        th.left-align {
+            text-align: left;
+            position: relative;
+            left: 35px;
+        }
+
+        td:first-child {
+            text-align: left;
+            width: 60%;
+        }
+
+        td:nth-child(2),
+        td:nth-child(3) {
+            text-align: center;
+        }
+
+        .input-key {
+            width: 50px;
+            padding: 5px;
+        }
+
+        button {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            color: #dc3545;
+            text-align: center;
+        }
+
+        /* 开关样式 */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            /* 开关的宽度 */
+            height: 34px;
+            /* 开关的高度 */
+        }
+
+        .switch input {
+            opacity: 0;
+            /* 隐藏默认的复选框 */
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+            /* 圆角 */
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            /* 圆点的高度 */
+            width: 26px;
+            /* 圆点的宽度 */
+            left: 4px;
+            /* 圆点的位置 */
+            bottom: 4px;
+            /* 圆点的位置 */
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            /* 圆形 */
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+            /* 开关开启时的背景色 */
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(26px);
+            /* 开关开启时圆点移动的位置 */
+        }
+
+        /* 暗黑模式 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #121212;
+                color: #ffffff;
+            }
+
+            .container {
+                background-color: #1e1e1e;
+                box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+            }
+
+            button {
+                background-color: #6200ea;
+            }
+
+            button:hover {
+                background-color: #3700b3;
+            }
+
+            .message {
+                color: #ff4081;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>Bilibili 快捷键配置</h1>
         <form id="config-form">
             <table>
                 <thead>
@@ -88,7 +253,6 @@
                             <input type="text" id="toggle-window-key" name="toggle-window-key" value="v"
                                 class="input-key" enabled="false">
                         </td>
-                        </td>
                         <td>
                             <label class="switch">
                                 <input type="checkbox" id="toggle-window-enabled" name="toggle-window-enabled" checked>
@@ -109,31 +273,6 @@
                             </label>
                         </td>
                     </tr>
-                    <!-- <tr>
-                        <td>弹幕开关</td>
-                        <td class="hidden">
-                            <input type="text" id="danmu" name="danmu-key" value="i" class="input-key" enabled="false">
-                        </td>
-                        <td>
-                            <label class="switch">
-                                <input type="checkbox" id="danmu-enabled" name="danmu-enabled" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>小窗开关</td>
-                        <td class="hidden">
-                            <input type="text" id="miniwindow" name="miniwindow-key" value="o" class="input-key"
-                                enabled="false">
-                        </td>
-                        <td>
-                            <label class="switch">
-                                <input type="checkbox" id="miniwindow-enabled" name="miniwindow-enabled" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </td>
-                    </tr> -->
                     <tr>
                         <td>礼貌模式(默认点赞)</td>
                         <td class="hidden">
@@ -146,8 +285,6 @@
                             </label>
                         </td>
                     </tr>
-
-                    </tr>
                 </tbody>
             </table>
 
@@ -158,150 +295,5 @@
 
     <script src="options.js"></script>
 </body>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        max-width: 600px;
-        margin: 0 auto;
-        /* 上下均无间距 */
-        padding: 40px 20px;
-        /* 增加上下的 padding */
-        background-color: white;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
-        min-height: 400px;
-        /* 设置最小高度 */
-    }
-
-    h1 {
-        text-align: center;
-        margin-bottom: 20px;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
-
-    th,
-    td {
-        padding: 10px;
-    }
-
-    th {
-        font-weight: bold;
-        text-align: center;
-    }
-
-    th.left-align {
-        text-align: left;
-        position: relative;
-        left: 35px;
-    }
-
-    td:first-child {
-        text-align: left;
-        width: 60%;
-    }
-
-    td:nth-child(2),
-    td:nth-child(3) {
-        text-align: center;
-    }
-
-    .input-key {
-        width: 50px;
-        padding: 5px;
-    }
-
-    button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #0056b3;
-    }
-
-    .message {
-        color: #dc3545;
-        text-align: center;
-    }
-
-    /* 开关样式 */
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        /* 开关的宽度 */
-        height: 34px;
-        /* 开关的高度 */
-    }
-
-    .switch input {
-        opacity: 0;
-        /* 隐藏默认的复选框 */
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        transition: .4s;
-        border-radius: 34px;
-        /* 圆角 */
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        /* 圆点的高度 */
-        width: 26px;
-        /* 圆点的宽度 */
-        left: 4px;
-        /* 圆点的位置 */
-        bottom: 4px;
-        /* 圆点的位置 */
-        background-color: white;
-        transition: .4s;
-        border-radius: 50%;
-        /* 圆形 */
-    }
-
-    input:checked+.slider {
-        background-color: #2196F3;
-        /* 开关开启时的背景色 */
-    }
-
-    input:checked+.slider:before {
-        transform: translateX(26px);
-        /* 开关开启时圆点移动的位置 */
-    }
-
-    /* .hidden {
-        visibility: hidden;
-    } */
-</style>
 
 </html>
