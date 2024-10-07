@@ -15,7 +15,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="left-align">功能</th> <!-- 使用 class 让这个表头左对齐 -->
+                        <th class="left-align">功能</th>
                         <th>快捷键</th>
                         <th>启用</th>
                     </tr>
@@ -24,40 +24,129 @@
                     <tr>
                         <td>聚焦弹幕输入框</td>
                         <td><input type="text" id="focus-key" name="focus-key" value="a" class="input-key"></td>
-                        <td><input type="checkbox" id="focus-enabled" name="focus-enabled" checked
-                                class="input-checkbox"></td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="focus-enabled" name="focus-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
                     </tr>
                     <tr>
                         <td>重新开始播放当前视频</td>
                         <td><input type="text" id="replay-key" name="replay-key" value="b" class="input-key"></td>
-                        <td><input type="checkbox" id="replay-enabled" name="replay-enabled" checked
-                                class="input-checkbox"></td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="replay-enabled" name="replay-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
                     </tr>
                     <tr>
                         <td>切换网页全屏模式</td>
                         <td><input type="text" id="fullscreen-key" name="fullscreen-key" value="g" class="input-key">
                         </td>
-                        <td><input type="checkbox" id="fullscreen-enabled" name="fullscreen-enabled" checked
-                                class="input-checkbox"></td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="fullscreen-enabled" name="fullscreen-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
                     </tr>
                     <tr>
                         <td>主页刷新推荐视频</td>
                         <td><input type="text" id="refresh-key" name="refresh-key" value="r" class="input-key"></td>
-                        <td><input type="checkbox" id="refresh-enabled" name="refresh-enabled" checked
-                                class="input-checkbox"></td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="refresh-enabled" name="refresh-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>聚焦搜索输入框</td>
+                        <td><input type="text" id="search-key" name="search-key" value="s" class="input-key"></td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="search-enabled" name="search-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
                     </tr>
                     <tr>
                         <td>切换宽屏模式</td>
                         <td><input type="text" id="wide-key" name="wide-key" value="t" class="input-key"></td>
-                        <td><input type="checkbox" id="wide-enabled" name="wide-enabled" checked class="input-checkbox">
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="wide-enabled" name="wide-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
                         </td>
                     </tr>
                     <tr>
                         <td>隐藏/显示小窗口</td>
-                        <td><input type="text" id="toggle-window-key" name="toggle-window-key" value="v"
-                                class="input-key"></td>
-                        <td><input type="checkbox" id="toggle-window-enabled" name="toggle-window-enabled" checked
-                                class="input-checkbox"></td>
+                        <td>
+                            <input type="text" id="toggle-window-key" name="toggle-window-key" value="v"
+                                class="input-key" enabled="false">
+                        </td>
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="toggle-window-enabled" name="toggle-window-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>首页数字键1-6进入推荐视频</td>
+                        <td class="hidden">
+                            <input type="text" id="number" name="number-key" value="i" class="input-key"
+                                enabled="false">
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="nubmer-enabled" name="nubmer-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    <!-- <tr>
+                        <td>弹幕开关</td>
+                        <td class="hidden">
+                            <input type="text" id="danmu" name="danmu-key" value="i" class="input-key" enabled="false">
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="danmu-enabled" name="danmu-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>小窗开关</td>
+                        <td class="hidden">
+                            <input type="text" id="miniwindow" name="miniwindow-key" value="o" class="input-key"
+                                enabled="false">
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="miniwindow-enabled" name="miniwindow-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr> -->
+                    <tr>
+                        <td>礼貌模式(默认点赞)</td>
+                        <td class="hidden">
+                            <input type="text" id="thumb" name="thumb-key" value="p" class="input-key" enabled="false">
+                        </td>
+                        <td>
+                            <label class="switch">
+                                <input type="checkbox" id="thumb-enabled" name="thumb-enabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+
                     </tr>
                 </tbody>
             </table>
@@ -80,11 +169,15 @@
 
     .container {
         max-width: 600px;
-        margin: 50px auto;
-        padding: 20px;
+        margin: 0 auto;
+        /* 上下均无间距 */
+        padding: 40px 20px;
+        /* 增加上下的 padding */
         background-color: white;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         border-radius: 10px;
+        min-height: 400px;
+        /* 设置最小高度 */
     }
 
     h1 {
@@ -108,22 +201,17 @@
         text-align: center;
     }
 
-    /* 左对齐功能列的表头 */
     th.left-align {
         text-align: left;
         position: relative;
-        /* 设置相对定位 */
         left: 35px;
     }
 
-    /* 左对齐第一列 */
     td:first-child {
         text-align: left;
         width: 60%;
-        /* 第一列宽度 */
     }
 
-    /* 居中对齐输入框和复选框 */
     td:nth-child(2),
     td:nth-child(3) {
         text-align: center;
@@ -132,10 +220,6 @@
     .input-key {
         width: 50px;
         padding: 5px;
-    }
-
-    .input-checkbox {
-        margin: 0 auto;
     }
 
     button {
@@ -157,6 +241,67 @@
         color: #dc3545;
         text-align: center;
     }
+
+    /* 开关样式 */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        /* 开关的宽度 */
+        height: 34px;
+        /* 开关的高度 */
+    }
+
+    .switch input {
+        opacity: 0;
+        /* 隐藏默认的复选框 */
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 34px;
+        /* 圆角 */
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        /* 圆点的高度 */
+        width: 26px;
+        /* 圆点的宽度 */
+        left: 4px;
+        /* 圆点的位置 */
+        bottom: 4px;
+        /* 圆点的位置 */
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+        /* 圆形 */
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+        /* 开关开启时的背景色 */
+    }
+
+    input:checked+.slider:before {
+        transform: translateX(26px);
+        /* 开关开启时圆点移动的位置 */
+    }
+
+    /* .hidden {
+        visibility: hidden;
+    } */
 </style>
 
 </html>

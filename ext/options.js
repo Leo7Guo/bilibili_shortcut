@@ -8,10 +8,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         { id: 'replay', keyField: 'replay-key', enabledField: 'replay-enabled', defaultKey: 'b' },
         { id: 'fullscreen', keyField: 'fullscreen-key', enabledField: 'fullscreen-enabled', defaultKey: 'g' },
         { id: 'refresh', keyField: 'refresh-key', enabledField: 'refresh-enabled', defaultKey: 'r' },
+        { id: 'search', keyField: 'search-key', enabledField: 'search-enabled', defaultKey: 's' },
         { id: 'wide', keyField: 'wide-key', enabledField: 'wide-enabled', defaultKey: 't' },
         { id: 'toggleWindow', keyField: 'toggle-window-key', enabledField: 'toggle-window-enabled', defaultKey: 'v' },
+        // { id: 'danmu', keyField: 'danmu', enabledField: 'danmu-enabled', defaultKey: 'p' },
+        // { id: 'miniwindow', keyField: 'miniwindow', enabledField: 'danmu-enabled', defaultKey: 'o' },
+        { id: 'number', keyField: 'number', enabledField: 'nubmer-enabled', defaultKey: 'p' },
+        { id: 'thumb', keyField: 'thumb', enabledField: 'thumb-enabled', defaultKey: 'k' },
     ];
-
 
     // 保存设置的函数
     async function saveSettings(config) {
@@ -63,6 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const config = await loadSettings() || {};
 
         shortcutOptions.forEach(({ id, keyField, enabledField, defaultKey }) => {
+            console.log(config[id]);
             document.getElementById(keyField).value = config[id]?.key || defaultKey;
             document.getElementById(enabledField).checked = !!config[id]?.enabled;
         });
@@ -89,9 +94,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 showMessage('不能设置为q: 投币, w: 投币, e: 收藏, m: 静音, [: 上一个,  ]: 下一个,  这是网站默认使用快捷键, 请指定其他按键');
                 input.value = ''; // 还原输入框
                 return;
-            } else if (!/^[a-zA-Z0-9\\\-=;,.'\/]$/.test(key)) { // 检查是否是允许的字符
+            } else if (!/^[a-zA-Z\\\-=;,.'\/]$/.test(key)) {// 检查是否是允许的字符
                 updateButtonState(true);
-                showMessage('按键必须是英文字符、数字或符号\\ - = ; , . \' /, 不允许使用需要按住Shift键的字符');
+                showMessage('默认快捷键只允许a-z, 请重试');
                 input.value = ''; // 还原输入框
                 return;
             } else {
@@ -100,7 +105,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (inputSet.has(key)) {
                 updateButtonState(true);
-                showMessage('不能设置相同的按键');
+                showMessage('按键已被占用, 请重新设置');
                 input.value = ''; // 还原输入框
                 return;
             }
