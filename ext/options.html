@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bilibili 快捷键配置</title>
-    <link rel="stylesheet" href="options.css">
     <style>
         /* 默认样式（浅色模式） */
         body {
@@ -18,16 +17,18 @@
 
         .container {
             max-width: 600px;
+            min-width: 380px;
             margin: 0 auto;
             /* 上下均无间距 */
-            padding: 20px 20px;
+            /* padding: 20px 20px; */
             /* 增加上下的 padding */
             background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
             border-radius: 10px;
-            min-height: 200px;
+            min-height: 600px;
+            max-height: 1080px;
             /* 设置最小高度 */
-            transform: scale(0.92);
+            transform: scale(1);
             /* 缩小10% */
             transform-origin: top;
             /* 设置缩放的原点 */
@@ -36,12 +37,12 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         th,
         td {
-            padding: 10px;
+            padding: 8px;
         }
 
         th {
@@ -171,6 +172,10 @@
                 color: #ff4081;
             }
         }
+
+        .hidden {
+            visibility: hidden;
+        }
     </style>
 </head>
 
@@ -263,7 +268,7 @@
                     <tr>
                         <td>首页数字键1-6进入推荐视频</td>
                         <td class="hidden">
-                            <input type="text" id="number" name="number-key" value="i" class="input-key"
+                            <input type="text" id="number" name="number-key" value="!" class="input-key"
                                 enabled="false">
                         </td>
                         <td>
@@ -274,9 +279,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>礼貌模式(默认点赞)</td>
+                        <td>礼貌模式(打开视频30秒后自动点赞)</td>
                         <td class="hidden">
-                            <input type="text" id="thumb" name="thumb-key" value="p" class="input-key" enabled="false">
+                            <input type="text" id="thumb" name="thumb-key" value="@" class="input-key" enabled="false">
                         </td>
                         <td>
                             <label class="switch">
@@ -288,9 +293,9 @@
                 </tbody>
             </table>
 
+            <div class="message" id="message"></div>
             <button type="submit">保存设置</button>
         </form>
-        <div class="message" id="message"></div>
     </div>
 
     <script src="options.js"></script>

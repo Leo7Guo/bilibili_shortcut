@@ -15,18 +15,15 @@
         margin: 0;
         padding: 0;
         width: 380px;
-        /* 你可以根据需要调整宽度 */
-        height: 780px;
-        /* 你可以根据需要调整高度 */
-        overflow: hidden;
+        min-height: 600px; /* 可根据需要修改 */
+        overflow: hidden; /* 隐藏滚动条 */
+        display: flex;
     }
 
     iframe {
+        height: 100vh;
         width: 100%;
-        height: 100%;
-        /* 使iframe高度与body相同 */
         border: none;
-        /* 去掉iframe的边框 */
     }
 </style>
 

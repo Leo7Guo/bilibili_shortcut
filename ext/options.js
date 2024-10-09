@@ -11,10 +11,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         { id: 'search', keyField: 'search-key', enabledField: 'search-enabled', defaultKey: 's' },
         { id: 'wide', keyField: 'wide-key', enabledField: 'wide-enabled', defaultKey: 't' },
         { id: 'toggleWindow', keyField: 'toggle-window-key', enabledField: 'toggle-window-enabled', defaultKey: 'v' },
-        // { id: 'danmu', keyField: 'danmu', enabledField: 'danmu-enabled', defaultKey: 'p' },
-        // { id: 'miniwindow', keyField: 'miniwindow', enabledField: 'danmu-enabled', defaultKey: 'o' },
-        { id: 'number', keyField: 'number', enabledField: 'nubmer-enabled', defaultKey: 'p' },
-        { id: 'thumb', keyField: 'thumb', enabledField: 'thumb-enabled', defaultKey: 'k' },
+        { id: 'number', keyField: 'number', enabledField: 'nubmer-enabled', defaultKey: '!' },
+        { id: 'thumb', keyField: 'thumb', enabledField: 'thumb-enabled', defaultKey: '@' },
     ];
 
     // 保存设置的函数
@@ -50,7 +48,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             submitButton.style.backgroundColor = defaultColor;
         }, displayTime);
     }
-
     function showMessage(message, duration = 3000) {
         const messageElement = document.getElementById('message');
         messageElement.textContent = message;
@@ -60,16 +57,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             messageElement.style.display = 'none';
         }, duration);
     }
+    function showError(message, input) {
+        updateButtonState(true);
+        showMessage(message);
+        input.value = ''; // 还原输入框
+    }
 
-    const ruleoutKeys = ['q', 'w', 'e', 'm', '[', ']'];
+    const ruleoutKeys = new Set(['d', 'q', 'w', 'e', 'm', '[', ']']);
     // 加载配置并设置表单值
     async function initializeForm() {
         const config = await loadSettings() || {};
 
         shortcutOptions.forEach(({ id, keyField, enabledField, defaultKey }) => {
-            console.log(config[id]);
             document.getElementById(keyField).value = config[id]?.key || defaultKey;
-            document.getElementById(enabledField).checked = !!config[id]?.enabled;
+            document.getElementById(enabledField).checked = config[id]?.enabled;
         });
     }
 
@@ -81,36 +82,29 @@ document.addEventListener('DOMContentLoaded', async () => {
         const inputSet = new Set(); // 用于存储已经输入的内容
 
         for (const input of inputs) {
-            const key = input.value.toLowerCase();
+            const key = input.value.trim().toLowerCase(); // 去除空格并转换为小写
 
             // 检查输入的有效性
-            if (key.trim().length !== 1) {
-                updateButtonState(true);
-                showMessage('按键必须为单个字母, 不允许为空');
-                input.value = ''; // 还原输入框
+            if (key.length !== 1) {
+                showError('按键必须为单个字母, 不允许为空', input);
                 return;
-            } else if (ruleoutKeys.includes(key.toLowerCase())) {
-                updateButtonState(true);
-                showMessage('不能设置为q: 投币, w: 投币, e: 收藏, m: 静音, [: 上一个,  ]: 下一个,  这是网站默认使用快捷键, 请指定其他按键');
-                input.value = ''; // 还原输入框
-                return;
-            } else if (!/^[a-zA-Z\\\-=;,.'\/]$/.test(key)) {// 检查是否是允许的字符
-                updateButtonState(true);
-                showMessage('默认快捷键只允许a-z, 请重试');
-                input.value = ''; // 还原输入框
-                return;
-            } else {
-                input.value = key.trim(); // 去除空格
             }
 
+            if (ruleoutKeys.has(key)) {
+                showError('不能设置为q: 投币, w: 投币, e: 收藏, d: 弹幕开关, m: 静音, [: 上一个,  ]: 下一个,  这是网站默认使用快捷键, 请指定其他按键', input);
+                return;
+            }
+            if (!/^[\x21-\x2F\x3A-\x40\x5B-\x60\x7B-\x7E\x41-\x5A\x61-\x7A]$/.test(key)) {
+                showError('默认快捷键只允许所有非数字的 ASCII 字符，请重试', input);
+                return;
+            }
             if (inputSet.has(key)) {
-                updateButtonState(true);
-                showMessage('按键已被占用, 请重新设置');
-                input.value = ''; // 还原输入框
+                showError('按键有冲突, 请检查并重新设置', input);
                 return;
             }
 
             inputSet.add(key); // 将有效的输入添加到集合中
+            input.value = key; // 只在输入有效时更新值
         }
 
         // 生成配置
@@ -121,6 +115,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 enabled: document.getElementById(enabledField).checked,
             };
         });
+
 
         try {
             await saveSettings(config);
