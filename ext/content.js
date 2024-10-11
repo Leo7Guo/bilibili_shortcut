@@ -23,12 +23,13 @@ const thumbUp = () => {
 let isTyping = false;
 let config = {};
 let data = {};
+const searchInputElement = window.location.href.includes('keyword') ? '.search-input-el' : '.nav-search-input';
 
 // 观察DOM变化以查找输入框
 const observer = new MutationObserver((mutations) => {
     mutations.forEach(mutation => {
         if (mutation.target.nodeType === Node.ELEMENT_NODE) {
-            const searchInput = mutation.target.querySelector('.nav-search-input');
+            const searchInput = mutation.target.querySelector(searchInputElement);
             if (searchInput) {
                 addSearchInputListeners(searchInput);
                 observer.disconnect();
@@ -43,31 +44,35 @@ observer.observe(document.body, { childList: true, subtree: true });
 const storageApi = typeof browser !== 'undefined' ? browser.storage : chrome.storage;
 storageApi.local.get('bilibili-shortcuts-config', (result) => {
     config = result['bilibili-shortcuts-config'] || {};
-    if (config.thumb?.enabled) {
+    if (config.thumb?.enabled && window.location.href.includes('video')) {
         thumbUp();
     }
     // 创建 data 对象，使用用户设置的键和对应的选择器，并检查是否启用
+    
     data = {
         ...(config.focus?.enabled && { [config.focus?.key || 'a']: '.bpx-player-dm-input' }),
         ...(config.replay?.enabled && { [config.replay?.key || 'b']: 'video' }),
         ...(config.fullscreen?.enabled && { [config.fullscreen?.key || 'g']: '.bpx-player-ctrl-web' }),
         ...(config.refresh?.enabled && { [config.refresh?.key || 'r']: '.primary-btn.roll-btn' }),
-        ...(config.search?.enabled && { [config.search?.key || 's']: '.nav-search-input' }),
+        ...(config.search?.enabled && { [config.search?.key || 's']: searchInputElement }),
         ...(config.wide?.enabled && { [config.wide?.key || 't']: '.bpx-player-ctrl-wide' }),
         ...(config.toggleWindow?.enabled && { [config.toggleWindow?.key || 'v']: '.mini-player-window.fixed-sidenav-storage-item' }),
     };
 
     // 添加按键事件监听器
     document.addEventListener('keydown', (event) => {
+
         // 按下 Esc 键，退出输入
         if (event.key === 'Escape') {
             document.querySelector('a').focus();
             document.querySelector('button').focus();
-
             document.querySelector('.search-panel').style.display = 'none';
             return;
         }
-        if (isTyping) return; // 如果正在输入，则不处理按键事件
+        if (isTyping) {
+            document.querySelector('.search-panel').style.display = '';
+            return;
+        } // 如果正在输入，则不处理按键事件
         if (event.ctrlKey || event.altKey || event.shiftKey || event.metaKey) return; // 处理单个按键
 
         try {

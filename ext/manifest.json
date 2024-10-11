@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Bilibili快捷键",
-    "version": "1.0.9",
+    "version": "1.1.1",
     "description": "为bilibili添加快捷键",
     "icons": {
         "80": "icons/bilibili.png"
