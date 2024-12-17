@@ -1,6 +1,7 @@
 # bilibili快捷键 UserScript
 ## 简介
 这是一个为Bilibili网站定制的用户脚本，它为用户提供了简单的快捷键功能，以便更方便地使用Bilibili平台。
+浏览器插件代码在ext/中，monkey.js为油猴脚本。
 ## 功能
 - 按 `A` 聚焦弹幕输入框
 - 按 `B` 重新开始播放当前视频，按住阻止播放
@@ -14,6 +15,7 @@
 # bilibili shortcut UserScript
 ## Introduction
 This is a user script customized for Bilibili, which provides users with simple shortcut functionalities for easier use of the Bilibili platform.
+The browser plugin code is in the ext/ folder, and monkey.js is the Tampermonkey script.
 ## Features
 - Press `A` to focus on the bullet chat input box
 - Press `B` to replay the current video from the start, holding down prevent play
