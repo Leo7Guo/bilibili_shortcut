@@ -9,6 +9,7 @@
 - 按 `R` 主页刷新推荐视频
 - 按 `T` 切换宽屏模式
 - 按 `V` 隐藏/显示小窗口
+- 30秒后自动点赞
 
 # bilibili shortcut UserScript
 ## Introduction
@@ -21,3 +22,4 @@ The browser plugin code is in the ext/ folder, and monkey.js is the Tampermonkey
 - Press `R` to refresh the recommended videos on main page
 - Press `T` to toggle wide screen mode
 - Press `V` to toggle mini window player display
+- Auto thumbs up after 30 seconds
