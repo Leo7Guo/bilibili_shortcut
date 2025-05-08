@@ -1,3 +1,4 @@
 #folders to ignore
 web-ext-artifacts/
 *.zip
+.DS_Store
