@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibili快捷键
 // @name:en      bilibili shortcut
-// @version      1.2.1
+// @version      1.2.3
 // @description  bilibili快捷键，按A聚焦弹幕输入框，按B重新开始播放视频，按G切换网页全屏模式，按R刷新推荐视频，按S聚焦搜索框，按T切换宽屏模式，按V隐藏/显示小窗口，首页按1-6点击推荐视频，自动30秒后点赞
 // @description:en  press key 'A' to focus on the bullet chat input box, 'B' to replay video from the start, 'G' to toggle web full screen mode, 'R' to refresh recommended videos,'S' to focus on the search box, 'T' to toggle wide screen mode, 'V' to toggle mini window player display, home page 1-6 to click recommended videos, automatically like videos after 30 seconds
 // @license      MIT
@@ -27,9 +27,51 @@ const BilibiliShortcuts = (() => {
             DANMAKU_INPUT: '.bpx-player-dm-input',
             WEB_FULLSCREEN: '.bpx-player-ctrl-web',
             WIDE_SCREEN: '.bpx-player-ctrl-wide',
-            MINI_WINDOW: '.mini-player-window.fixed-sidenav-storage-item',
-            REFRESH_BUTTON: '.primary-btn.roll-btn'
+            MINI_WINDOW: '.mini-player-window.fixed-sidenav-storage-item'
         }
+    };
+
+    // 刷新按钮查找：优先内层真实 <button class="roll-btn">，外层 div 兜底
+    const findRefreshButton = () => {
+        // 1. 精确匹配内层 button（当前 B 站结构）
+        const innerBtn = document.querySelector('button.roll-btn');
+        if (innerBtn) return innerBtn;
+
+        // 2. 兼容旧的 .primary-btn.roll-btn（可能是 a 或 div）
+        const oldBtn = document.querySelector('.primary-btn.roll-btn, .roll-btn');
+        if (oldBtn) return oldBtn;
+
+        // 3. 从外层 feed-roll-btn 向内找 button
+        const outerDiv = document.querySelector('.feed-roll-btn, [class*="roll-btn"]');
+        if (outerDiv) {
+            return outerDiv.querySelector('button, a, [role="button"]') || outerDiv;
+        }
+
+        // 4. 文本兜底
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
+        let node;
+        while ((node = walker.nextNode())) {
+            const text = node.textContent.trim();
+            if (text === '换一换' && (node.tagName === 'BUTTON' || node.tagName === 'A')) {
+                return node;
+            }
+        }
+        return null;
+    };
+
+    // 触发完整的点击事件序列（兼容 React/Vue/原生不同的事件实现）
+    const triggerFullClick = (el) => {
+        if (!el) return;
+        el.scrollIntoView({ block: 'center', behavior: 'instant' });
+        el.focus?.();
+
+        // 不传 view，避免 Tampermonkey 沙箱 window 不为真实 Window 的问题
+        const opts = { bubbles: true, cancelable: true };
+        el.dispatchEvent(new PointerEvent('pointerdown', { ...opts, pointerId: 1, pointerType: 'mouse' }));
+        el.dispatchEvent(new PointerEvent('pointerup', { ...opts, pointerId: 1, pointerType: 'mouse' }));
+        el.dispatchEvent(new MouseEvent('mousedown', opts));
+        el.dispatchEvent(new MouseEvent('mouseup', opts));
+        el.dispatchEvent(new MouseEvent('click', opts));
     };
 
     const DEFAULT_CONFIG = {
@@ -53,7 +95,9 @@ const BilibiliShortcuts = (() => {
     const InputHandler = {
         init(inputElement) {
             if (!inputElement?._shortcutListeners) {
-                const updateState = (state) => () => isTyping = state;
+                const updateState = (state) => {
+                    return () => { isTyping = state; };
+                };
                 inputElement.addEventListener('focus', updateState(true));
                 inputElement.addEventListener('blur', updateState(false));
                 inputElement._shortcutListeners = true;
@@ -93,7 +137,7 @@ const BilibiliShortcuts = (() => {
         [config.focus.key]: SELECTORS.CONTROLS.DANMAKU_INPUT,
         [config.replay.key]: SELECTORS.VIDEO_ELEMENT,
         [config.fullscreen.key]: SELECTORS.CONTROLS.WEB_FULLSCREEN,
-        [config.refresh.key]: SELECTORS.CONTROLS.REFRESH_BUTTON,
+        [config.refresh.key]: findRefreshButton, // 使用函数动态查找
         [config.search.key]: SELECTORS.SEARCH_INPUT,
         [config.wide.key]: SELECTORS.CONTROLS.WIDE_SCREEN,
         [config.toggleWindow.key]: SELECTORS.CONTROLS.MINI_WINDOW
@@ -198,7 +242,10 @@ const BilibiliShortcuts = (() => {
             if (!selector) return;
 
             event.preventDefault();
-            const element = document.querySelector(selector);
+            // 支持 selector 为函数（动态查找）或字符串（CSS 选择器）
+            const element = typeof selector === 'function'
+                ? selector()
+                : document.querySelector(selector);
             if (!element) return;
 
             switch (key) {
@@ -209,6 +256,9 @@ const BilibiliShortcuts = (() => {
                 case config.focus.key:
                 case config.search.key:
                     element.focus();
+                    break;
+                case config.refresh.key:
+                    triggerFullClick(element);
                     break;
                 default:
                     element.click();
